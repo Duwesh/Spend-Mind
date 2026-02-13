@@ -21,7 +21,7 @@ import {
 import { NavLink } from "react-router-dom";
 
 const Sidebar = ({ className, onNavigate }) => {
-  const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
   const navItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "expenses", label: "Expenses", icon: Receipt },
