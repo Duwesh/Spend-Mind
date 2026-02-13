@@ -20,7 +20,7 @@ import {
 
 import { NavLink } from "react-router-dom";
 
-const Sidebar = () => {
+const Sidebar = ({ className, onNavigate }) => {
   const { theme, setTheme } = useTheme();
   const navItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -30,7 +30,12 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="w-64 bg-card border-r h-screen flex flex-col p-4 fixed left-0 top-0">
+    <div
+      className={cn(
+        "w-64 bg-card border-r h-screen flex flex-col p-4",
+        className,
+      )}
+    >
       <div className="flex items-center gap-2 mb-8 px-2 pl-4">
         <Wallet className="h-6 w-6 text-primary" />
         <span className="text-xl font-bold tracking-tight">SpendMind</span>
@@ -44,6 +49,7 @@ const Sidebar = () => {
             <NavLink
               key={item.id}
               to={item.id === "dashboard" ? "/" : `/${item.id}`}
+              onClick={onNavigate}
               className={({ isActive }) =>
                 cn(
                   "flex items-center w-full justify-start gap-3 px-4 py-2 rounded-md transition-colors",

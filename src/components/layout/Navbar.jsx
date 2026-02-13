@@ -9,9 +9,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { User, LogOut } from "lucide-react";
+import { User, LogOut, Menu } from "lucide-react";
 
-export default function Navbar() {
+export default function Navbar({ onMenuClick }) {
   const { user, signOut } = useAuth();
 
   // Get initials from email or metadata if available
@@ -20,10 +20,14 @@ export default function Navbar() {
 
   return (
     <header className="bg-card/50 backdrop-blur-sm border-b h-16 flex items-center justify-between px-6 sticky top-0 z-40">
-      <div className="font-semibold text-lg md:hidden">SpendMind</div>{" "}
-      {/* Mobile title */}
-      <div className="flex-1"></div> {/* Spacer */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 md:hidden">
+        <Button variant="ghost" size="icon" onClick={onMenuClick}>
+          <Menu className="h-5 w-5" />
+        </Button>
+        <div className="font-semibold text-lg">SpendMind</div>
+      </div>
+      <div className="hidden md:block flex-1"></div> {/* Spacer */}
+      <div className="flex items-center gap-4 ml-auto">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-8 w-8 rounded-full">

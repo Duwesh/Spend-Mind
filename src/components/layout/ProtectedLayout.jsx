@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Outlet, Navigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { Loader2 } from "lucide-react";
@@ -7,6 +8,7 @@ import { AppProvider } from "../../context/AppContext";
 
 export default function ProtectedLayout() {
   const { user, loading } = useAuth();
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   if (loading) {
     return (
@@ -25,15 +27,33 @@ export default function ProtectedLayout() {
       {/* AppProvider is here so it has access to AuthContext if needed, 
             and to ensure it's only active when logged in */}
       <div className="min-h-screen bg-background flex">
-        {/* Sidebar - Hidden on mobile, fixed on desktop */}
+        {/* Mobile Sidebar Overlay */}
+        {isMobileOpen && (
+          <div
+            className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm md:hidden"
+            onClick={() => setIsMobileOpen(false)}
+          >
+            <div
+              className="fixed inset-y-0 left-0 z-50 w-64 border-r bg-background shadow-lg"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Sidebar
+                onNavigate={() => setIsMobileOpen(false)}
+                className="border-none"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Desktop Sidebar - Hidden on mobile, fixed on desktop */}
         <div className="hidden md:flex w-64 flex-col fixed inset-y-0 z-50">
           <Sidebar />
         </div>
 
         {/* Main Content */}
         <div className="flex-1 md:pl-64 flex flex-col">
-          <Navbar />
-          <main className="flex-1 p-6 overflow-y-auto">
+          <Navbar onMenuClick={() => setIsMobileOpen(true)} />
+          <main className="flex-1 p-4 md:p-6 overflow-y-auto w-full">
             <div className="max-w-7xl mx-auto space-y-6">
               <Outlet />
             </div>
