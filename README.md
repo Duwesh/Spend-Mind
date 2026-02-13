@@ -63,6 +63,28 @@ Follow these instructions to get the project up and running on your local machin
     ```
     Open [http://localhost:5173](http://localhost:5173) in your browser.
 
+## 🌍 Deployment (GitHub Pages)
+
+This project is configured for automatic deployment to GitHub Pages using GitHub Actions.
+
+### Setup Steps
+
+1.  **Add Secrets**:
+    - Go to your GitHub Repository **Settings** > **Secrets and variables** > **Actions**.
+    - Click **New repository secret**.
+    - Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` with your Supabase credentials.
+
+2.  **Push Code**:
+    - Push your code to the `main` branch. This will trigger the deployment workflow automatically.
+
+3.  **Configure Pages Source**:
+    - After the initial workflow runs successfully, go to **Settings** > **Pages**.
+    - Under **Build and deployment**, select **Deploy from a branch**.
+    - Set **Branch** to `gh-pages` and folder to `/ (root)`.
+    - Click **Save**.
+
+Your app will be live at `https://<your-username>.github.io/Spend-Mind/`.
+
 ## 📂 Project Structure
 
 ```
