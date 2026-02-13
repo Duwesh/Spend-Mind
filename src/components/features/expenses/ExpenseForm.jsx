@@ -10,15 +10,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { DatePicker } from "@/components/ui/date-picker";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 const ExpenseForm = ({ onClose }) => {
   const { addExpense, categories } = useApp();
   const [formData, setFormData] = useState({
     amount: "",
     category: categories[0],
-    date: new Date().toISOString().split("T")[0],
     description: "",
   });
+  const [date, setDate] = useState(new Date());
   const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
@@ -35,12 +38,13 @@ const ExpenseForm = ({ onClose }) => {
     addExpense({
       ...formData,
       amount: parseFloat(formData.amount),
+      date: format(date, "yyyy-MM-dd"),
     });
     onClose();
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 py-4">
+    <form onSubmit={handleSubmit} className="space-y-4 py-4 text-white">
       <div className="space-y-2">
         <Label htmlFor="amount">Amount</Label>
         <Input
@@ -50,7 +54,10 @@ const ExpenseForm = ({ onClose }) => {
           placeholder="0.00"
           value={formData.amount}
           onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-          className={error && !formData.amount ? "border-destructive" : ""}
+          className={cn(
+            "bg-slate-800/50 border-slate-700 text-white",
+            error && !formData.amount ? "border-destructive" : "",
+          )}
           autoFocus
         />
       </div>
@@ -63,10 +70,10 @@ const ExpenseForm = ({ onClose }) => {
             setFormData({ ...formData, category: value })
           }
         >
-          <SelectTrigger>
+          <SelectTrigger className="bg-slate-800/50 border-slate-700 text-white">
             <SelectValue placeholder="Select category" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="bg-slate-900 border-slate-800 text-white">
             {categories.map((c) => (
               <SelectItem key={c} value={c}>
                 {c}
@@ -77,13 +84,8 @@ const ExpenseForm = ({ onClose }) => {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="date">Date</Label>
-        <Input
-          id="date"
-          type="date"
-          value={formData.date}
-          onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-        />
+        <Label>Date</Label>
+        <DatePicker date={date} setDate={setDate} />
       </div>
 
       <div className="space-y-2">
@@ -95,16 +97,29 @@ const ExpenseForm = ({ onClose }) => {
           onChange={(e) =>
             setFormData({ ...formData, description: e.target.value })
           }
-          className={error && !formData.description ? "border-destructive" : ""}
+          className={cn(
+            "bg-slate-800/50 border-slate-700 text-white",
+            error && !formData.description ? "border-destructive" : "",
+          )}
         />
         {error && <p className="text-sm text-destructive">{error}</p>}
       </div>
 
       <div className="pt-4 flex justify-end gap-3">
-        <Button type="button" variant="ghost" onClick={onClose}>
+        <Button
+          type="button"
+          variant="ghost"
+          onClick={onClose}
+          className="text-slate-400 hover:text-white"
+        >
           Cancel
         </Button>
-        <Button type="submit">Add Expense</Button>
+        <Button
+          type="submit"
+          className="bg-cyan-500 hover:bg-cyan-600 text-slate-900 font-bold"
+        >
+          Add Expense
+        </Button>
       </div>
     </form>
   );

@@ -10,61 +10,78 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
+  Label,
 } from "recharts";
 
 const COLORS = [
-  "#3b82f6",
-  "#10b981",
-  "#f59e0b",
-  "#ef4444",
-  "#8b5cf6",
-  "#ec4899",
-  "#6366f1",
+  "#22d3ee", // cyan
+  "#f87171", // red/orange
+  "#a855f7", // purple
+  "#fbbf24", // yellow
+  "#34d399", // emerald
 ];
 
 export const CategoryPieChart = ({ data, currencyFormatter }) => {
+  const total = data.reduce((sum, item) => sum + item.value, 0);
+
   if (!data || data.length === 0) {
     return (
-      <div className="h-64 flex items-center justify-center text-slate-500">
+      <div className="h-[300px] flex items-center justify-center text-slate-500">
         No data to display
       </div>
     );
   }
 
   return (
-    <div className="h-80">
+    <div className="h-[300px] w-full">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
             data={data}
             cx="50%"
             cy="50%"
-            innerRadius={60}
-            outerRadius={100}
+            innerRadius={70}
+            outerRadius={90}
             paddingAngle={5}
             dataKey="value"
+            stroke="none"
           >
             {data.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={COLORS[index % COLORS.length]}
-                stroke="rgba(0,0,0,0)"
               />
             ))}
+            <Label
+              value={`Total`}
+              position="centerTop"
+              dy={-10}
+              style={{ fontSize: "14px", fill: "#94a3b8", fontWeight: 500 }}
+            />
+            <Label
+              value={
+                currencyFormatter
+                  ? currencyFormatter(total).replace(/\.00$/, "")
+                  : total
+              }
+              position="centerBottom"
+              dy={10}
+              style={{ fontSize: "22px", fill: "#f8fafc", fontWeight: 700 }}
+            />
           </Pie>
           <Tooltip
+            contentStyle={{
+              backgroundColor: "#0f172a",
+              borderColor: "#1e293b",
+              color: "#f8fafc",
+              borderRadius: "12px",
+              boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
+            }}
+            itemStyle={{ color: "#f8fafc" }}
             formatter={(value) =>
               currencyFormatter ? currencyFormatter(value) : value
             }
-            contentStyle={{
-              backgroundColor: "#1f2937", // bg-gray-800
-              borderColor: "#374151", // border-gray-700
-              color: "#f3f4f6", // text-gray-100
-              borderRadius: "0.5rem",
-            }}
-            itemStyle={{ color: "#e5e7eb" }}
           />
-          <Legend />
         </PieChart>
       </ResponsiveContainer>
     </div>
@@ -74,31 +91,34 @@ export const CategoryPieChart = ({ data, currencyFormatter }) => {
 export const DailySpendingBar = ({ data, currencyFormatter }) => {
   if (!data || data.length === 0) {
     return (
-      <div className="h-64 flex items-center justify-center text-slate-500">
+      <div className="h-[300px] flex items-center justify-center text-slate-500">
         No data to display
       </div>
     );
   }
 
   return (
-    <div className="h-80">
+    <div className="h-[300px] w-full">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data}>
+        <BarChart
+          data={data}
+          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+        >
           <CartesianGrid
             strokeDasharray="3 3"
-            stroke="#374151"
+            stroke="#1e293b"
             vertical={false}
           />
           <XAxis
             dataKey="date"
-            stroke="#9ca3af"
+            stroke="#64748b"
             fontSize={12}
             tickLine={false}
             axisLine={false}
             dy={10}
           />
           <YAxis
-            stroke="#9ca3af"
+            stroke="#64748b"
             fontSize={12}
             tickLine={false}
             axisLine={false}
@@ -106,15 +126,15 @@ export const DailySpendingBar = ({ data, currencyFormatter }) => {
               currencyFormatter
                 ? currencyFormatter(value).replace(/\D+00(?=\D*$)/, "")
                 : value
-            } // Compact formatting
+            }
           />
           <Tooltip
-            cursor={{ fill: "#374151", opacity: 0.4 }}
+            cursor={{ fill: "#1e293b", opacity: 0.4 }}
             contentStyle={{
-              backgroundColor: "#1f2937",
-              borderColor: "#374151",
-              color: "#f3f4f6",
-              borderRadius: "0.5rem",
+              backgroundColor: "#0f172a",
+              borderColor: "#1e293b",
+              color: "#f8fafc",
+              borderRadius: "12px",
             }}
             formatter={(value) => [
               currencyFormatter ? currencyFormatter(value) : value,
@@ -123,9 +143,9 @@ export const DailySpendingBar = ({ data, currencyFormatter }) => {
           />
           <Bar
             dataKey="amount"
-            fill="#3b82f6"
-            radius={[4, 4, 0, 0]}
-            maxBarSize={50}
+            fill="#22d3ee"
+            radius={[6, 6, 0, 0]}
+            maxBarSize={40}
           />
         </BarChart>
       </ResponsiveContainer>

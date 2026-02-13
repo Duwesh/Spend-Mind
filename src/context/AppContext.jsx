@@ -18,6 +18,7 @@ export function AppProvider({ children }) {
   });
 
   const [isLoading, setIsLoading] = useState(true);
+  const [availableCurrencies, setAvailableCurrencies] = useState([]);
 
   // Fetch Initial Data
   useEffect(() => {
@@ -43,9 +44,10 @@ export function AppProvider({ children }) {
             currency: {
               code: settingsData.currencies?.code || "USD",
               symbol: settingsData.currencies?.symbol || "$",
-              locale: "en-US", // Logic to determine locale could be added
+              locale: settingsData.currencies?.locale || "en-US",
             },
             country: settingsData.country_code,
+            theme: settingsData.theme || "system",
           });
         }
 
@@ -75,6 +77,13 @@ export function AppProvider({ children }) {
         // 4. Fetch Goals
         const { data: goalsData } = await supabase.from("goals").select("*");
         if (goalsData) setGoals(goalsData);
+
+        // 5. Fetch available currencies
+        const { data: currenciesData } = await supabase
+          .from("currencies")
+          .select("*")
+          .order("code");
+        if (currenciesData) setAvailableCurrencies(currenciesData);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -208,12 +217,42 @@ export function AppProvider({ children }) {
   };
 
   const updateSettings = async (newSettings) => {
-    // TODO: Implement settings update logic specifically for currency
-    console.log(
-      "Settings update not fully implemented for DB yet",
-      newSettings,
-    );
-    setSettings((prev) => ({ ...prev, ...newSettings }));
+    if (!user) return;
+    try {
+      const updateData = {};
+      if (newSettings.currency) {
+        updateData.currency_code = newSettings.currency.code;
+      }
+      if (newSettings.theme) {
+        updateData.theme = newSettings.theme;
+      }
+      if (newSettings.country) {
+        updateData.country_code = newSettings.country;
+      }
+
+      const { data, error } = await supabase
+        .from("settings")
+        .update(updateData)
+        .eq("user_id", user.id)
+        .select("*, currencies(*)")
+        .single();
+
+      if (error) throw error;
+
+      if (data) {
+        setSettings({
+          currency: {
+            code: data.currencies?.code || "USD",
+            symbol: data.currencies?.symbol || "$",
+            locale: data.currencies?.locale || "en-US",
+          },
+          theme: data.theme,
+          country: data.country_code,
+        });
+      }
+    } catch (err) {
+      console.error("Error updating settings:", err);
+    }
   };
 
   // Analytics Helpers
@@ -268,6 +307,7 @@ export function AppProvider({ children }) {
         getCategorySpent,
         getRemainingBudget,
         formatCurrency,
+        availableCurrencies,
       }}
     >
       {children}

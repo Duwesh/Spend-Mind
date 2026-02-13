@@ -11,6 +11,8 @@ import Login from "./components/features/auth/Login";
 import Signup from "./components/features/auth/Signup";
 import Dashboard from "./components/features/analytics/Dashboard";
 import ExpenseList from "./components/features/expenses/ExpenseList";
+import Budgets from "./components/features/budgets/Budgets";
+import Reports from "./components/features/reports/Reports";
 import SettingsLayout from "./components/features/settings/SettingsLayout";
 import AIAdvisor from "./components/features/advisor/AIAdvisor";
 
@@ -35,6 +37,8 @@ function App() {
           <Route path="/" element={<ProtectedLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="expenses" element={<ExpenseList />} />
+            <Route path="budgets" element={<Budgets />} />
+            <Route path="reports" element={<Reports />} />
             <Route path="ai-advisor" element={<AIAdvisor />} />
             <Route path="settings" element={<SettingsLayout />} />
           </Route>

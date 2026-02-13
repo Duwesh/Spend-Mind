@@ -10,23 +10,19 @@ import {
 } from "@/components/ui/select";
 import { Globe, DollarSign } from "lucide-react";
 
-const CURRENCIES = [
-  { code: "USD", symbol: "$", name: "US Dollar", locale: "en-US" },
-  { code: "EUR", symbol: "€", name: "Euro", locale: "de-DE" },
-  { code: "GBP", symbol: "£", name: "British Pound", locale: "en-GB" },
-  { code: "INR", symbol: "₹", name: "Indian Rupee", locale: "en-IN" },
-  { code: "JPY", symbol: "¥", name: "Japanese Yen", locale: "ja-JP" },
-  { code: "CAD", symbol: "$", name: "Canadian Dollar", locale: "en-CA" },
-  { code: "AUD", symbol: "$", name: "Australian Dollar", locale: "en-AU" },
-];
-
 const GeneralSettings = () => {
-  const { settings, updateSettings } = useApp();
+  const { settings, updateSettings, availableCurrencies } = useApp();
 
   const handleCurrencyChange = (code) => {
-    const currency = CURRENCIES.find((c) => c.code === code);
+    const currency = availableCurrencies.find((c) => c.code === code);
     if (currency) {
-      updateSettings({ currency });
+      updateSettings({
+        currency: {
+          code: currency.code,
+          symbol: currency.symbol,
+          locale: currency.locale,
+        },
+      });
     }
   };
 
@@ -50,10 +46,10 @@ const GeneralSettings = () => {
                 <SelectValue placeholder="Select currency" />
               </SelectTrigger>
               <SelectContent>
-                {CURRENCIES.map((currency) => (
+                {availableCurrencies.map((currency) => (
                   <SelectItem key={currency.code} value={currency.code}>
                     <span className="flex items-center gap-2">
-                      <span className="text-muted-foreground w-6 text-center">
+                      <span className="text-muted-foreground w-6 text-center font-mono">
                         {currency.symbol}
                       </span>
                       {currency.name} ({currency.code})
