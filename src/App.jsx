@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedLayout from "./components/layout/ProtectedLayout";
 import AuthLayout from "./components/layout/AuthLayout";
@@ -10,12 +15,18 @@ import SettingsLayout from "./components/features/settings/SettingsLayout";
 import AIAdvisor from "./components/features/advisor/AIAdvisor";
 
 function App() {
-  const basename = import.meta.env.MODE === "production" ? "/Spend-Mind" : "";
+  const isProduction = import.meta.env.MODE === "production";
+  const basename = isProduction ? "/Spend-Mind" : "";
 
   return (
     <Router basename={basename}>
       <AuthProvider>
         <Routes>
+          {/* Redirect /Spend-Mind/ paths to / in dev to fix "No routes matched" errors */}
+          {!isProduction && (
+            <Route path="/Spend-Mind/*" element={<Navigate to="/" replace />} />
+          )}
+
           <Route path="/auth" element={<AuthLayout />}>
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
@@ -27,6 +38,9 @@ function App() {
             <Route path="ai-advisor" element={<AIAdvisor />} />
             <Route path="settings" element={<SettingsLayout />} />
           </Route>
+
+          {/* Fallback for unknown routes */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AuthProvider>
     </Router>
