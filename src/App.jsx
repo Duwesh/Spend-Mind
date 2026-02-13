@@ -1,4 +1,4 @@
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedLayout from "./components/layout/ProtectedLayout";
 import AuthLayout from "./components/layout/AuthLayout";
@@ -10,8 +10,10 @@ import SettingsLayout from "./components/features/settings/SettingsLayout";
 import AIAdvisor from "./components/features/advisor/AIAdvisor";
 
 function App() {
+  const basename = import.meta.env.MODE === "production" ? "/Spend-Mind" : "";
+
   return (
-    <Router>
+    <Router basename={basename}>
       <AuthProvider>
         <Routes>
           <Route path="/auth" element={<AuthLayout />}>
