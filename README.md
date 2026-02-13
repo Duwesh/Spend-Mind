@@ -1,16 +1,81 @@
-# React + Vite
+# Spend Mind 🧠💰
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Spend Mind** is an intelligent, AI-powered personal finance tracker designed to help you take control of your financial life. Beyond simple expense tracking, it helps you set goals, visualize your spending habits, and receive personalized advice to optimize your budget.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Dashboard Overview**: Visualize your monthly spending, budget progress, and daily trends at a glance.
+- **Expense Tracking**: Easily add, categorize, and manage your daily expenses.
+- **Budget Management**: Set monthly limits for different categories (Food, Transport, Utilities, etc.) and get alerts when you're close to overspending.
+- **AI Financial Advisor**: Get personalized insights and actionable recommendations to save money based on your actual spending patterns.
+- **Goal Setting**: Define financial goals (e.g., "New Laptop", "Vacation") and track your progress.
+- **Secure Cloud Sync**: All your data is securely stored in the cloud using **Supabase**, allowing you to access it from anywhere.
+- **Authentication**: Secure Email/Password login and signup.
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend**: React (Vite)
+- **Styling**: Tailwind CSS, Shadcn UI
+- **Backend**: Supabase (PostgreSQL, Auth)
+- **Icons**: Lucide React
+- **Charts**: Recharts
+- **Routing**: React Router DOM
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Follow these instructions to get the project up and running on your local machine.
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm or yarn
+- A [Supabase](https://supabase.com/) account
+
+### Installation
+
+1.  **Clone the repository**
+
+    ```bash
+    git clone https://github.com/your-username/spend-mind.git
+    cd spend-mind
+    ```
+
+2.  **Install dependencies**
+
+    ```bash
+    npm install
+    ```
+
+3.  **Set up Environment Variables**
+    Create a `.env` file in the root directory and add your Supabase credentials:
+
+    ```env
+    VITE_SUPABASE_URL=your_supabase_project_url
+    VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+    ```
+
+4.  **Database Setup**
+    Run the SQL script provided in `supabase/schema.sql` in your Supabase project's SQL Editor to set up the necessary tables and policies.
+
+5.  **Run the application**
+    ```bash
+    npm run dev
+    ```
+    Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+## 📂 Project Structure
+
+```
+src/
+├── components/
+│   ├── features/       # Feature-specific components (Auth, Expenses, Analytics, etc.)
+│   ├── layout/         # Layout components (Sidebar, Navbar)
+│   └── ui/             # Reusable UI components (Buttons, Inputs, Cards, etc.)
+├── context/            # Global state (AuthContext, AppContext)
+├── lib/                # Utilities and Supabase client
+└── App.jsx             # Main application entry point
+```
+
+## 📄 License
+
+This project is licensed under the MIT License.
