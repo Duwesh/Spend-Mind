@@ -86,7 +86,8 @@ The deployment is handled by the [deploy.yml](file:///.github/workflows/deploy.y
 1.  **Add Secrets**:
     - Go to your GitHub Repository **Settings** > **Secrets and variables** > **Actions**.
     - Click **New repository secret**.
-    - Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` with your Supabase credentials.
+    - Click **New repository secret**.
+    - Add `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `VITE_GEMINI_API_KEY`, and `GOOGLE_API_KEY` with your respective credentials.
 
 2.  **Configure Pages**:
     - Go to **Settings** > **Pages**.
