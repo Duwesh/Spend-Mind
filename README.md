@@ -1,5 +1,7 @@
 # Spend Mind 🧠💰
 
+[![Deploy to GitHub Pages](https://github.com/Duwesh/Spend-Mind/actions/workflows/deploy.yml/badge.svg)](https://github.com/Duwesh/Spend-Mind/actions/workflows/deploy.yml)
+
 **Spend Mind** is an intelligent, AI-powered personal finance tracker designed to help you take control of your financial life. Beyond simple expense tracking, it helps you set goals, visualize your spending habits, and receive personalized advice to optimize your budget.
 
 ## ✨ Features
@@ -65,7 +67,14 @@ Follow these instructions to get the project up and running on your local machin
 
 ## 🌍 Deployment (GitHub Pages)
 
-This project is configured for automatic deployment to GitHub Pages using GitHub Actions.
+This project is configured for automatic deployment to GitHub Pages using **GitHub Actions**.
+
+### CI/CD Workflow
+
+The deployment is handled by the [deploy.yml](file:///.github/workflows/deploy.yml) workflow:
+
+- **Triggers**: Automatic deployment on every push to the `main` branch, or via manual `workflow_dispatch`.
+- **Environment**: Builds the project on `ubuntu-latest` and deploys the `dist` folder to the `gh-pages` branch.
 
 ### Setup Steps
 
@@ -74,16 +83,15 @@ This project is configured for automatic deployment to GitHub Pages using GitHub
     - Click **New repository secret**.
     - Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` with your Supabase credentials.
 
-2.  **Push Code**:
-    - Push your code to the `main` branch. This will trigger the deployment workflow automatically.
-
-3.  **Configure Pages Source**:
-    - After the initial workflow runs successfully, go to **Settings** > **Pages**.
+2.  **Configure Pages**:
+    - Go to **Settings** > **Pages**.
     - Under **Build and deployment**, select **Deploy from a branch**.
     - Set **Branch** to `gh-pages` and folder to `/ (root)`.
-    - Click **Save**.
 
-Your app will be live at `https://<your-username>.github.io/Spend-Mind/`.
+3.  **Automatic Deployment**:
+    - Push your code to the `main` branch. GitHub Actions will handle the build and deployment automatically.
+
+Your app will be live at `https://Duwesh.github.io/Spend-Mind/`.
 
 ## 📂 Project Structure
 
