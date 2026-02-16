@@ -121,10 +121,10 @@ const Dashboard = () => {
       {/* Top Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground transition-colors">
             Personal Dashboard
           </h1>
-          <p className="text-slate-400">
+          <p className="text-muted-foreground transition-colors">
             Welcome back,{" "}
             {user?.user_metadata?.full_name?.split(" ")[0] || "User"}!
           </p>
@@ -137,7 +137,7 @@ const Dashboard = () => {
               setShowNotification(true);
               setTimeout(() => setShowNotification(false), 3000);
             }}
-            className="rounded-full bg-slate-800/50 border-slate-700 text-slate-300"
+            className="rounded-full bg-secondary/50 border-border text-foreground hover:bg-secondary/80 transition-all shadow-sm"
           >
             <Bell className="h-4 w-4" />
           </Button>
@@ -157,7 +157,7 @@ const Dashboard = () => {
 
       {/* Top Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="bg-slate-900/50 border-slate-800 backdrop-blur-sm">
+        <Card className="bg-card/50 border-border backdrop-blur-sm shadow-sm hover:shadow-md transition-all">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between mb-4">
               <div className="p-2 bg-emerald-500/10 rounded-lg">
@@ -168,15 +168,15 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="space-y-1">
-              <p className="text-sm text-slate-400">Total Balance</p>
-              <p className="text-2xl font-bold text-white">
+              <p className="text-sm text-muted-foreground">Total Balance</p>
+              <p className="text-2xl font-bold text-foreground">
                 {formatCurrency(totalBalance)}
               </p>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-900/50 border-slate-800 backdrop-blur-sm">
+        <Card className="bg-card/50 border-border backdrop-blur-sm shadow-sm hover:shadow-md transition-all">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between mb-4">
               <div className="p-2 bg-orange-500/10 rounded-lg">
@@ -187,34 +187,36 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="space-y-1">
-              <p className="text-sm text-slate-400">Monthly Spending</p>
-              <p className="text-2xl font-bold text-white">
+              <p className="text-sm text-muted-foreground">Monthly Spending</p>
+              <p className="text-2xl font-bold text-foreground">
                 {formatCurrency(totalSpentThisMonth)}
               </p>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-900/50 border-slate-800 backdrop-blur-sm">
+        <Card className="bg-card/50 border-border backdrop-blur-sm shadow-sm hover:shadow-md transition-all">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between mb-4">
               <div className="p-2 bg-purple-500/10 rounded-lg">
                 <PieChartIcon className="h-5 w-5 text-purple-500" />
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-muted-foreground">
                 Goal: {formatCurrency(50000)}
               </p>
             </div>
             <div className="space-y-3">
               <div className="space-y-1">
-                <p className="text-sm text-slate-400">Savings Progress</p>
-                <p className="text-2xl font-bold text-white">
+                <p className="text-sm text-muted-foreground">
+                  Savings Progress
+                </p>
+                <p className="text-2xl font-bold text-foreground">
                   {savingsProgress.toFixed(1)}%
                 </p>
               </div>
-              <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+              <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-cyan-400 rounded-full"
+                  className="h-full bg-cyan-400 rounded-full shadow-[0_0_10px_rgba(34,211,238,0.5)]"
                   style={{ width: `${savingsProgress}%` }}
                 />
               </div>
@@ -226,17 +228,17 @@ const Dashboard = () => {
       {/* Main Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
         {/* Spending Categories */}
-        <Card className="lg:col-span-2 bg-slate-900/50 border-slate-800">
+        <Card className="lg:col-span-2 bg-card/50 border-border shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
-              <CardTitle className="text-white text-lg font-semibold">
+              <CardTitle className="text-foreground text-lg font-semibold">
                 Spending Categories
               </CardTitle>
-              <CardDescription className="text-slate-500">
+              <CardDescription className="text-muted-foreground">
                 This Month
               </CardDescription>
             </div>
-            <select className="bg-transparent border-none text-xs text-slate-400 focus:ring-0">
+            <select className="bg-transparent border-none text-xs text-muted-foreground focus:ring-0 cursor-pointer hover:text-foreground transition-colors">
               <option>This Month</option>
             </select>
           </CardHeader>
@@ -253,16 +255,16 @@ const Dashboard = () => {
                 >
                   <div className="flex items-center gap-2">
                     <div
-                      className={`w-2 h-2 rounded-full`}
+                      className={`w-2 h-2 rounded-full shadow-sm`}
                       style={{
                         backgroundColor: ["#22d3ee", "#f87171", "#a855f7"][
                           i % 3
                         ],
                       }}
                     />
-                    <span className="text-slate-400">{item.name}</span>
+                    <span className="text-muted-foreground">{item.name}</span>
                   </div>
-                  <span className="text-white font-medium">
+                  <span className="text-foreground font-medium">
                     {formatCurrency(item.value)}
                   </span>
                 </div>
@@ -272,25 +274,25 @@ const Dashboard = () => {
         </Card>
 
         {/* Monthly Trends */}
-        <Card className="lg:col-span-3 bg-slate-900/50 border-slate-800">
+        <Card className="lg:col-span-3 bg-card/50 border-border shadow-sm">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle className="text-white text-lg font-semibold">
+                <CardTitle className="text-foreground text-lg font-semibold">
                   Monthly Trends
                 </CardTitle>
-                <CardDescription className="text-slate-500">
+                <CardDescription className="text-muted-foreground">
                   Income vs Expenses over 6 months
                 </CardDescription>
               </div>
               <div className="flex items-center gap-4 text-xs">
                 <div className="flex items-center gap-1.5">
                   <div className="w-2 h-2 rounded-full bg-cyan-400" />
-                  <span className="text-slate-400">Income</span>
+                  <span className="text-muted-foreground">Income</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div className="w-2 h-2 rounded-full bg-orange-500" />
-                  <span className="text-slate-400">Expenses</span>
+                  <span className="text-muted-foreground">Expenses</span>
                 </div>
               </div>
             </div>
@@ -305,14 +307,14 @@ const Dashboard = () => {
       </div>
 
       {/* Recent Transactions */}
-      <Card className="bg-slate-900/50 border-slate-800">
+      <Card className="bg-card/50 border-border shadow-sm">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-white text-lg font-semibold">
+          <CardTitle className="text-foreground text-lg font-semibold">
             Recent Expenses
           </CardTitle>
           <Button
             variant="link"
-            className="text-cyan-400 hover:text-cyan-300 text-sm"
+            className="text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 transition-colors text-sm px-0"
           >
             View All
           </Button>
@@ -321,7 +323,7 @@ const Dashboard = () => {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="text-left text-xs text-slate-500 uppercase tracking-wider border-b border-slate-800">
+                <tr className="text-left text-xs text-muted-foreground uppercase tracking-wider border-b border-border">
                   <th className="pb-4 font-medium">Date</th>
                   <th className="pb-4 font-medium">Merchant / Category</th>
                   <th className="pb-4 font-medium">Amount</th>
@@ -329,17 +331,17 @@ const Dashboard = () => {
                   <th className="pb-4"></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/50">
+              <tbody className="divide-y divide-border/50">
                 {recentTransactions.map((tx) => (
                   <tr
                     key={tx.id}
-                    className="text-sm group hover:bg-slate-800/30 transition-colors"
+                    className="text-sm group hover:bg-muted/50 transition-colors"
                   >
                     <td className="py-4">
-                      <div className="text-slate-300">
+                      <div className="text-foreground font-medium">
                         {new Date(tx.date).toLocaleDateString()}
                       </div>
-                      <div className="text-[10px] text-slate-500">
+                      <div className="text-[10px] text-muted-foreground">
                         {new Date(tx.date).toLocaleTimeString([], {
                           hour: "2-digit",
                           minute: "2-digit",
@@ -348,24 +350,24 @@ const Dashboard = () => {
                     </td>
                     <td className="py-4">
                       <div className="flex items-center gap-3">
-                        <div className="p-2 bg-slate-800 rounded-lg text-emerald-400">
+                        <div className="p-2 bg-muted rounded-lg text-emerald-600 dark:text-emerald-400 shadow-sm transition-colors group-hover:bg-background">
                           {getCategoryIcon(tx.category)}
                         </div>
                         <div>
-                          <div className="text-white font-medium">
+                          <div className="text-foreground font-medium transition-colors">
                             {tx.description || "Expense"}
                           </div>
-                          <div className="text-xs text-slate-500">
+                          <div className="text-xs text-muted-foreground">
                             {tx.category}
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td className="py-4 font-medium text-slate-300">
+                    <td className="py-4 font-medium text-foreground">
                       -{formatCurrency(tx.amount)}
                     </td>
                     <td className="py-4">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-500">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-500 shadow-sm">
                         Completed
                       </span>
                     </td>
@@ -373,7 +375,7 @@ const Dashboard = () => {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 text-slate-500 hover:text-white"
+                        className="h-8 w-8 text-muted-foreground hover:text-foreground transition-colors hover:bg-muted"
                       >
                         <MoreVertical className="h-4 w-4" />
                       </Button>

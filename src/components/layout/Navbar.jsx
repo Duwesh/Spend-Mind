@@ -21,10 +21,17 @@ export default function Navbar({ onMenuClick }) {
   return (
     <header className="bg-card/50 backdrop-blur-sm border-b h-16 flex items-center justify-between px-6 sticky top-0 z-40">
       <div className="flex items-center gap-4 md:hidden">
-        <Button variant="ghost" size="icon" onClick={onMenuClick}>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onMenuClick}
+          className="hover:bg-accent/50"
+        >
           <Menu className="h-5 w-5" />
         </Button>
-        <div className="font-semibold text-lg">SpendMind</div>
+        <div className="font-bold text-lg tracking-tight text-foreground">
+          SpendMind
+        </div>
       </div>
       <div className="hidden md:block flex-1"></div> {/* Spacer */}
       <div className="flex items-center gap-4 ml-auto">

@@ -54,9 +54,16 @@ export const CategoryPieChart = ({ data, currencyFormatter }) => {
             ))}
             <Label
               value={`Total`}
-              position="centerTop"
-              dy={-10}
-              style={{ fontSize: "14px", fill: "#94a3b8", fontWeight: 500 }}
+              position="center"
+              dy={-20}
+              style={{
+                fontSize: "12px",
+                fill: "hsl(var(--muted-foreground))",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: "0.05em",
+                transition: "fill 0.3s ease",
+              }}
             />
             <Label
               value={
@@ -64,20 +71,26 @@ export const CategoryPieChart = ({ data, currencyFormatter }) => {
                   ? currencyFormatter(total).replace(/\.00$/, "")
                   : total
               }
-              position="centerBottom"
-              dy={10}
-              style={{ fontSize: "22px", fill: "#f8fafc", fontWeight: 700 }}
+              position="center"
+              dy={15}
+              style={{
+                fontSize: "24px",
+                fill: "hsl(var(--foreground))",
+                fontWeight: 800,
+                transition: "fill 0.3s ease",
+              }}
             />
           </Pie>
           <Tooltip
             contentStyle={{
-              backgroundColor: "#0f172a",
-              borderColor: "#1e293b",
-              color: "#f8fafc",
+              backgroundColor: "hsl(var(--card))",
+              borderColor: "hsl(var(--border))",
+              color: "hsl(var(--foreground))",
               borderRadius: "12px",
               boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1)",
+              borderWidth: "1px",
             }}
-            itemStyle={{ color: "#f8fafc" }}
+            itemStyle={{ color: "hsl(var(--foreground))" }}
             formatter={(value) =>
               currencyFormatter ? currencyFormatter(value) : value
             }
@@ -106,19 +119,19 @@ export const DailySpendingBar = ({ data, currencyFormatter }) => {
         >
           <CartesianGrid
             strokeDasharray="3 3"
-            stroke="#1e293b"
+            stroke="hsl(var(--border))"
             vertical={false}
           />
           <XAxis
             dataKey="date"
-            stroke="#64748b"
+            stroke="hsl(var(--muted-foreground))"
             fontSize={12}
             tickLine={false}
             axisLine={false}
             dy={10}
           />
           <YAxis
-            stroke="#64748b"
+            stroke="hsl(var(--muted-foreground))"
             fontSize={12}
             tickLine={false}
             axisLine={false}
@@ -129,12 +142,13 @@ export const DailySpendingBar = ({ data, currencyFormatter }) => {
             }
           />
           <Tooltip
-            cursor={{ fill: "#1e293b", opacity: 0.4 }}
+            cursor={{ fill: "hsl(var(--muted))", opacity: 0.15 }}
             contentStyle={{
-              backgroundColor: "#0f172a",
-              borderColor: "#1e293b",
-              color: "#f8fafc",
+              backgroundColor: "hsl(var(--card))",
+              borderColor: "hsl(var(--border))",
+              color: "hsl(var(--foreground))",
               borderRadius: "12px",
+              borderWidth: "1px",
             }}
             formatter={(value) => [
               currencyFormatter ? currencyFormatter(value) : value,

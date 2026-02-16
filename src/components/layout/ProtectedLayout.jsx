@@ -5,6 +5,8 @@ import { Loader2 } from "lucide-react";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 import { AppProvider } from "../../context/AppContext";
+import { ChatProvider } from "../../context/ChatContext";
+import PennyWise from "../features/chat/PennyWise";
 
 export default function ProtectedLayout() {
   const { user, loading } = useAuth();
@@ -23,43 +25,46 @@ export default function ProtectedLayout() {
   }
 
   return (
-    <AppProvider>
-      {/* AppProvider is here so it has access to AuthContext if needed, 
-            and to ensure it's only active when logged in */}
-      <div className="min-h-screen bg-background flex">
-        {/* Mobile Sidebar Overlay */}
-        {isMobileOpen && (
-          <div
-            className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm md:hidden"
-            onClick={() => setIsMobileOpen(false)}
-          >
+    <ChatProvider>
+      <AppProvider>
+        <div className="min-h-screen bg-background flex">
+          {/* Mobile Sidebar Overlay */}
+          {isMobileOpen && (
             <div
-              className="fixed inset-y-0 left-0 z-50 w-64 border-r bg-background shadow-lg"
-              onClick={(e) => e.stopPropagation()}
+              className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm md:hidden"
+              onClick={() => setIsMobileOpen(false)}
             >
-              <Sidebar
-                onNavigate={() => setIsMobileOpen(false)}
-                className="border-none"
-              />
+              <div
+                className="fixed inset-y-0 left-0 z-50 w-64 border-r bg-background shadow-lg"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Sidebar
+                  onNavigate={() => setIsMobileOpen(false)}
+                  className="border-none"
+                />
+              </div>
             </div>
+          )}
+
+          {/* Desktop Sidebar - Hidden on mobile, fixed on desktop */}
+          <div className="hidden md:flex w-64 flex-col fixed inset-y-0 z-50">
+            <Sidebar />
           </div>
-        )}
 
-        {/* Desktop Sidebar - Hidden on mobile, fixed on desktop */}
-        <div className="hidden md:flex w-64 flex-col fixed inset-y-0 z-50">
-          <Sidebar />
-        </div>
+          {/* Main Content */}
+          <div className="flex-1 md:pl-64 flex flex-col">
+            <Navbar onMenuClick={() => setIsMobileOpen(true)} />
+            <main className="flex-1 p-4 md:p-6 overflow-y-auto w-full">
+              <div className="max-w-7xl mx-auto space-y-6">
+                <Outlet />
+              </div>
+            </main>
+          </div>
 
-        {/* Main Content */}
-        <div className="flex-1 md:pl-64 flex flex-col">
-          <Navbar onMenuClick={() => setIsMobileOpen(true)} />
-          <main className="flex-1 p-4 md:p-6 overflow-y-auto w-full">
-            <div className="max-w-7xl mx-auto space-y-6">
-              <Outlet />
-            </div>
-          </main>
+          {/* Global AI Chatbot */}
+          <PennyWise />
         </div>
-      </div>
-    </AppProvider>
+      </AppProvider>
+    </ChatProvider>
   );
 }

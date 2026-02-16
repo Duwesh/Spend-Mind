@@ -51,15 +51,15 @@ const Sidebar = ({ className, onNavigate }) => {
   return (
     <div
       className={cn(
-        "w-64 bg-[#020617] border-r border-slate-800 h-screen flex flex-col p-4",
+        "w-64 bg-card border-r border-border h-screen flex flex-col p-4 shadow-sm",
         className,
       )}
     >
       <div className="flex items-center gap-3 mb-10 px-2 pl-2">
-        <div className="bg-cyan-400 p-1.5 rounded-lg">
-          <Wallet className="h-5 w-5 text-slate-950" />
+        <div className="bg-cyan-500 text-white p-1.5 rounded-lg shadow-sm">
+          <Wallet className="h-5 w-5" />
         </div>
-        <span className="text-xl font-bold tracking-tight text-white">
+        <span className="text-xl font-bold tracking-tight text-foreground">
           SpendMind
         </span>
       </div>
@@ -75,10 +75,10 @@ const Sidebar = ({ className, onNavigate }) => {
               onClick={onNavigate}
               className={({ isActive }) =>
                 cn(
-                  "flex items-center w-full justify-start gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 group",
+                  "flex items-center w-full justify-start gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 group text-sm font-medium",
                   isActive
-                    ? "bg-cyan-400/10 text-cyan-400 font-semibold border border-cyan-400/20 shadow-[0_0_15px_rgba(34,211,238,0.1)]"
-                    : "text-slate-500 hover:text-slate-300 hover:bg-slate-800/50",
+                    ? "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 font-bold border border-cyan-500/20 shadow-sm"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent/50",
                 )
               }
             >
@@ -92,21 +92,21 @@ const Sidebar = ({ className, onNavigate }) => {
         })}
       </nav>
 
-      <div className="mt-auto pt-6 border-t border-slate-800 space-y-4">
+      <div className="mt-auto pt-6 border-t border-border space-y-4">
         {/* Bottom Section */}
-        <div className="flex items-center gap-3 px-2 py-3 bg-slate-900/50 rounded-xl border border-slate-800/50">
-          <Avatar className="h-9 w-9 border-2 border-slate-800">
+        <div className="flex items-center gap-3 px-2 py-3 bg-accent/30 rounded-xl border border-border/50">
+          <Avatar className="h-9 w-9 border-2 border-border transition-transform hover:scale-105">
             <AvatarImage src={user?.user_metadata?.avatar_url} />
-            <AvatarFallback className="bg-slate-800 text-slate-300">
+            <AvatarFallback className="bg-secondary text-secondary-foreground font-bold">
               {user?.user_metadata?.full_name?.charAt(0) ||
                 user?.email?.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <div className="flex-1 min-w-0">
-            <p className="text-xs font-semibold text-white truncate">
+          <div className="flex-1 min-w-0 px-1">
+            <p className="text-xs font-bold text-foreground truncate">
               {user?.user_metadata?.full_name || "User Name"}
             </p>
-            <p className="text-[10px] text-emerald-500 font-medium">
+            <p className="text-[10px] text-emerald-600 dark:text-emerald-500 font-bold">
               Premium Member
             </p>
           </div>
@@ -114,7 +114,7 @@ const Sidebar = ({ className, onNavigate }) => {
             variant="ghost"
             size="icon"
             onClick={() => signOut()}
-            className="h-8 w-8 text-slate-500 hover:text-red-400 hover:bg-red-400/10"
+            className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
           >
             <LogOut className="h-4 w-4" />
           </Button>
@@ -126,7 +126,7 @@ const Sidebar = ({ className, onNavigate }) => {
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-slate-500 hover:text-white gap-2 px-2 hover:bg-slate-800/50"
+                className="text-muted-foreground hover:text-foreground gap-2 px-2 hover:bg-accent/50 transition-colors"
               >
                 <div className="relative w-4 h-4 flex items-center justify-center">
                   <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
@@ -137,20 +137,31 @@ const Sidebar = ({ className, onNavigate }) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent
               align="start"
-              className="bg-slate-900 border-slate-800 text-slate-300"
+              className="bg-popover border-border text-popover-foreground shadow-lg"
             >
-              <DropdownMenuItem onClick={() => setTheme("light")}>
+              <DropdownMenuItem
+                onClick={() => setTheme("light")}
+                className="cursor-pointer"
+              >
                 Light
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("dark")}>
+              <DropdownMenuItem
+                onClick={() => setTheme("dark")}
+                className="cursor-pointer"
+              >
                 Dark
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("system")}>
+              <DropdownMenuItem
+                onClick={() => setTheme("system")}
+                className="cursor-pointer"
+              >
                 System
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <span className="text-[10px] text-slate-600 font-medium">v1.2.0</span>
+          <span className="text-[10px] text-muted-foreground/60 font-medium">
+            v1.2.0
+          </span>
         </div>
       </div>
     </div>

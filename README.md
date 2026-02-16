@@ -7,21 +7,26 @@
 ## ✨ Features
 
 - **Dashboard Overview**: Visualize your monthly spending, budget progress, and daily trends at a glance.
-- **Expense Tracking**: Easily add, categorize, and manage your daily expenses.
-- **Budget Management**: Set monthly limits for different categories (Food, Transport, Utilities, etc.) and get alerts when you're close to overspending.
-- **AI Financial Advisor**: Get personalized insights and actionable recommendations to save money based on your actual spending patterns.
-- **Goal Setting**: Define financial goals (e.g., "New Laptop", "Vacation") and track your progress.
-- **Secure Cloud Sync**: All your data is securely stored in the cloud using **Supabase**, allowing you to access it from anywhere.
-- **Authentication**: Secure Email/Password login and signup.
+- **PennyWise AI Chatbot**: An intelligent financial companion powered by **Google Gemini 1.5 Flash** and **LangGraph**. Ask questions about your spending, get real-time advice, and interact with your financial data.
+- **Advanced AI Advisor**: A dedicated analysis suite that evaluates goal feasibility, suggests spending reductions, and optimizes your savings strategy.
+- **Professional PDF Export**: Generate and download detailed, professionally styled expense reports with a single click.
+- **Full Theme Support**: A premium UI experience with seamless transitions between **Light** and **Dark** modes.
+- **Expense Tracking**: Easily add, categorize, and manage your daily expenses with automated synchronization.
+- **Budget Management**: Set monthly limits for different categories (Food, Transport, Utilities, etc.) and get visual alerts.
+- **Goal Setting**: Define financial goals (e.g., "New Laptop", "Vacation") and receive AI-driven timeline projections.
+- **Secure Cloud Sync**: All your data is securely stored in the cloud using **Supabase**, featuring real-time updates across sessions.
+- **Authentication**: Secure Email/Password login powered by Supabase Auth.
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: React (Vite)
-- **Styling**: Tailwind CSS, Shadcn UI
-- **Backend**: Supabase (PostgreSQL, Auth)
+- **AI Engine**: Google Gemini 1.5 Flash via LangChain / LangGraph
+- **Styling**: Tailwind CSS, Shadcn UI, Framer Motion
+- **Backend**: Supabase (PostgreSQL, Auth, Storage)
+- **PDF Generation**: jsPDF, jsPDF-AutoTable
 - **Icons**: Lucide React
 - **Charts**: Recharts
-- **Routing**: React Router DOM
+- **Routing**: React Router DOM (v7)
 
 ## 🚀 Getting Started
 
