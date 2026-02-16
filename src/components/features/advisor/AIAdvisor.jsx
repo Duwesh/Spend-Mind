@@ -24,9 +24,10 @@ import {
   PiggyBank,
 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import { getAIRecommendations } from "../../../lib/pennywise/advisor";
 
-// Enhanced AI Analysis Logic
-const analyzeFinances = (
+// Enhanced AI Analysis Logic (Legacy Mock - keeping as fallback)
+const analyzeFinancesMock = (
   goals,
   expenses,
   categories,
@@ -132,10 +133,20 @@ const AIAdvisor = () => {
     setNewGoal({ title: "", amount: "", months: "12" });
   };
 
-  const runAnalysis = () => {
+  const runAnalysis = async () => {
     setIsAnalyzing(true);
-    setTimeout(() => {
-      const results = analyzeFinances(
+    try {
+      const results = await getAIRecommendations({
+        goals,
+        expenses,
+        categories,
+        reductionRate,
+      });
+      setAnalysisResult(results);
+    } catch (error) {
+      console.error("AI Analysis failed:", error);
+      // Fallback to mock logic if LLM fails
+      const results = analyzeFinancesMock(
         goals,
         expenses,
         categories,
@@ -143,8 +154,9 @@ const AIAdvisor = () => {
         reductionRate,
       );
       setAnalysisResult(results);
+    } finally {
       setIsAnalyzing(false);
-    }, 1500);
+    }
   };
 
   return (
