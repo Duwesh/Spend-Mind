@@ -10,6 +10,7 @@ import {
   LogOut,
   PieChart,
   BarChart,
+  CreditCard,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -46,6 +47,12 @@ const Sidebar = ({ className, onNavigate }) => {
       path: "/ai-advisor",
     },
     { id: "settings", label: "Settings", icon: Settings, path: "/settings" },
+    {
+      id: "subscription",
+      label: "Subscription",
+      icon: CreditCard,
+      path: "/subscription",
+    },
   ];
 
   return (

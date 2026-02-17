@@ -15,6 +15,7 @@ import Budgets from "./components/features/budgets/Budgets";
 import Reports from "./components/features/reports/Reports";
 import SettingsLayout from "./components/features/settings/SettingsLayout";
 import AIAdvisor from "./components/features/advisor/AIAdvisor";
+import Subscription from "./components/features/subscription/Subscription";
 
 function App() {
   const isProduction = import.meta.env.MODE === "production";
@@ -41,6 +42,7 @@ function App() {
             <Route path="reports" element={<Reports />} />
             <Route path="ai-advisor" element={<AIAdvisor />} />
             <Route path="settings" element={<SettingsLayout />} />
+            <Route path="subscription" element={<Subscription />} />
           </Route>
 
           {/* Fallback for unknown routes */}

@@ -16,8 +16,12 @@ import {
   Tag,
   Search,
   ChevronDown,
+  Mail,
+  Send,
+  Loader2,
 } from "lucide-react";
 import { DatePicker } from "@/components/ui/date-picker";
+import { supabase } from "../../../lib/supabase";
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 
@@ -27,6 +31,7 @@ const Reports = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [customStartDate, setCustomStartDate] = useState(null);
   const [customEndDate, setCustomEndDate] = useState(null);
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
 
   const filteredExpenses = useMemo(() => {
     return expenses.filter((exp) => {
@@ -157,6 +162,124 @@ const Reports = () => {
     doc.save(`SpendMind_Report_${new Date().toISOString().split("T")[0]}.pdf`);
   };
 
+  const handleSendEmail = async () => {
+    setIsSendingEmail(true);
+    try {
+      // 1. Generate PDF Blob (reuse logic essentially)
+      const doc = new jsPDF();
+
+      // ... (Header and Summary logic replicated for Blob generation) ...
+      // Ideally refactor PDF generation to a utility, but keeping inline for now to avoid large refactor
+
+      // Header
+      doc.setFontSize(20);
+      doc.setTextColor(40);
+      doc.text("Spend-Mind Expense Report", 14, 22);
+
+      doc.setFontSize(10);
+      doc.setTextColor(100);
+      doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 30);
+      let filterText = "All Time";
+      if (dateRange === "month") filterText = "Current Month";
+      else if (dateRange === "year") filterText = "Current Year";
+      else if (dateRange === "custom") {
+        const start = customStartDate
+          ? customStartDate.toLocaleDateString()
+          : "Beginning";
+        const end = customEndDate
+          ? customEndDate.toLocaleDateString()
+          : "Present";
+        filterText = `${start} to ${end}`;
+      }
+
+      doc.text(`Filter: ${filterText}`, 14, 35);
+      doc.text(
+        `Category: ${selectedCategory === "all" ? "All Categories" : selectedCategory}`,
+        14,
+        40,
+      );
+
+      // Summary Box
+      doc.setDrawColor(200);
+      doc.setFillColor(245, 247, 250);
+      doc.rect(14, 45, 182, 15, "F");
+      doc.setFontSize(12);
+      doc.setTextColor(40);
+      doc.text(
+        `Total Spending in Period: ${formatCurrencySafe(totalFiltered)}`,
+        20,
+        54,
+      );
+
+      // Table
+      const tableData = filteredExpenses.map((exp) => [
+        new Date(exp.date).toLocaleDateString(),
+        exp.description || "N/A",
+        exp.category_name,
+        formatCurrencySafe(exp.amount),
+      ]);
+
+      autoTable(doc, {
+        startY: 65,
+        head: [["Date", "Description", "Category", "Amount"]],
+        body: tableData,
+        theme: "striped",
+        headStyles: {
+          fillColor: [34, 197, 94],
+          textColor: 255,
+          fontSize: 10,
+          fontStyle: "bold",
+          halign: "center",
+        },
+        columnStyles: {
+          3: { halign: "right" },
+        },
+        styles: {
+          fontSize: 9,
+          cellPadding: 3,
+          font: "helvetica",
+        },
+        alternateRowStyles: {
+          fillColor: [249, 250, 251],
+        },
+      });
+
+      const pdfBlob = doc.output("blob");
+
+      // Convert Blob to Base64
+      const reader = new FileReader();
+      reader.readAsDataURL(pdfBlob);
+      reader.onloadend = async () => {
+        const base64data = reader.result.split(",")[1];
+
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (!user || !user.email) {
+          alert("User email not found. Please log in.");
+          return;
+        }
+
+        const { data, error } = await supabase.functions.invoke("send-report", {
+          body: {
+            email: user.email,
+            subject: `Spend Mind Report: ${filterText}`,
+            pdfBase64: base64data,
+          },
+        });
+
+        if (error) throw error;
+
+        alert("Email sent successfully!");
+      };
+    } catch (error) {
+      console.error("Error sending email:", error);
+      alert("Failed to send email. Please check your configuration.");
+    } finally {
+      setIsSendingEmail(false);
+    }
+  };
+
   return (
     <div className="space-y-8 pb-8">
       <div>
@@ -223,12 +346,27 @@ const Reports = () => {
               </div>
             </div>
 
-            <Button
-              className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold gap-2 shadow-sm transition-all shadow-cyan-500/20 active:scale-95"
-              onClick={generatePDF}
-            >
-              <Download className="h-4 w-4" /> Export PDF
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                className="gap-2 border-cyan-500/20 text-cyan-500 hover:bg-cyan-500/10"
+                onClick={handleSendEmail}
+                disabled={isSendingEmail}
+              >
+                {isSendingEmail ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Mail className="h-4 w-4" />
+                )}
+                {isSendingEmail ? "Sending..." : "Send Email"}
+              </Button>
+              <Button
+                className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold gap-2 shadow-sm transition-all shadow-cyan-500/20 active:scale-95"
+                onClick={generatePDF}
+              >
+                <Download className="h-4 w-4" /> Export PDF
+              </Button>
+            </div>
           </div>
         </CardHeader>
         <CardContent className="pt-8">

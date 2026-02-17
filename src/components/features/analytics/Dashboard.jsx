@@ -28,9 +28,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 
 const Dashboard = () => {
-  const { expenses, categories, formatCurrency, goals } = useAppData();
+  const { expenses, categories, formatCurrency, goals, isLoading } =
+    useAppData();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [showNotification, setShowNotification] = useState(false);
@@ -115,6 +117,10 @@ const Dashboard = () => {
     if (cat.includes("entertainment")) return <Tv className="h-4 w-4" />;
     return <DollarSign className="h-4 w-4" />;
   };
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div className="space-y-8 pb-8">

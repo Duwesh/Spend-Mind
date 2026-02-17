@@ -12,6 +12,7 @@
 - **Professional PDF Export**: Generate and download detailed, professionally styled expense reports with a single click.
 - **Full Theme Support**: A premium UI experience with seamless transitions between **Light** and **Dark** modes.
 - **Expense Tracking**: Easily add, categorize, and manage your daily expenses with automated synchronization.
+- **Smart Receipt OCR**: Upload expense receipts and let AI automatically extract details (Amount, Date, Category, Description) to fill your expense form.
 - **Budget Management**: Set monthly limits for different categories (Food, Transport, Utilities, etc.) and get visual alerts.
 - **Goal Setting**: Define financial goals (e.g., "New Laptop", "Vacation") and receive AI-driven timeline projections.
 - **Secure Cloud Sync**: All your data is securely stored in the cloud using **Supabase**, featuring real-time updates across sessions.

@@ -11,9 +11,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import ExpenseForm from "./ExpenseForm";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 
 const ExpenseList = () => {
-  const { expenses, deleteExpense, formatCurrency } = useApp();
+  const { expenses, deleteExpense, formatCurrency, isLoading } = useApp();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const sortedExpenses = [...expenses].sort(
@@ -27,6 +28,10 @@ const ExpenseList = () => {
       year: "numeric",
     });
   };
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div className="space-y-6">
@@ -47,11 +52,13 @@ const ExpenseList = () => {
               Add Expense
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="max-h-[90vh] flex flex-col">
             <DialogHeader>
               <DialogTitle>Add New Expense</DialogTitle>
             </DialogHeader>
-            <ExpenseForm onClose={() => setIsAddModalOpen(false)} />
+            <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar">
+              <ExpenseForm onClose={() => setIsAddModalOpen(false)} />
+            </div>
           </DialogContent>
         </Dialog>
       </div>
